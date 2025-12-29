@@ -30,7 +30,7 @@ create table public.slots (
   status text default 'available' check (status in ('available', 'booked', 'event', 'deal', 'maintenance')),
   is_peak boolean default false,
   created_at timestamptz default now(),
-  constraint no_overlap exclude using gist (court_id with =, tsrange(start_time, end_time) with &&)
+  constraint no_overlap exclude using gist (court_id with =, tstzrange(start_time, end_time) with &&)
 );
 
 -- Create bookings table
