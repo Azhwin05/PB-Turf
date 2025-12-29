@@ -1,0 +1,480 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Apple SF Pro Font Stack */
+@layer base {
+  :root {
+    /* ===== iOS Light Mode Colors ===== */
+    --background: 0 0% 98%;
+    --foreground: 0 0% 13%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 13%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 13%;
+
+    /* iOS Blue Accent */
+    --primary: 211 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 0 0% 13%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 211 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 95%;
+    --ring: 211 100% 50%;
+
+    /* iOS-style radius */
+    --radius: 1rem;
+
+    /* Glass effect variables */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --glass-shadow: rgba(0, 0, 0, 0.1);
+
+    /* Subtle background gradient */
+    --bg-gradient-start: 210 20% 98%;
+    --bg-gradient-end: 220 20% 95%;
+  }
+
+  .dark {
+    /* ===== iOS Dark Mode Colors ===== */
+    --background: 0 0% 7%;
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 11%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 11%;
+    --popover-foreground: 0 0% 98%;
+
+    /* iOS Blue Accent (slightly brighter in dark mode) */
+    --primary: 211 100% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 211 100% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 71% 45%;
+    --warning: 38 92% 50%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 211 100% 55%;
+
+    /* Glass effect variables for dark mode */
+    --glass-bg: rgba(28, 28, 30, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: rgba(0, 0, 0, 0.3);
+
+    /* Subtle background gradient */
+    --bg-gradient-start: 0 0% 7%;
+    --bg-gradient-end: 0 0% 9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(to bottom, hsl(var(--bg-gradient-start)), hsl(var(--bg-gradient-end)));
+    min-height: 100vh;
+  }
+
+  /* SF Pro Typography Hierarchy */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  /* Large Title - iOS style */
+  .text-large-title {
+    font-size: 2.125rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  /* Title 1 */
+  .text-title-1 {
+    font-size: 1.75rem;
+    line-height: 2.125rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* Title 2 */
+  .text-title-2 {
+    font-size: 1.375rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* Title 3 */
+  .text-title-3 {
+    font-size: 1.25rem;
+    line-height: 1.625rem;
+    font-weight: 600;
+  }
+
+  /* Headline */
+  .text-headline {
+    font-size: 1.0625rem;
+    line-height: 1.375rem;
+    font-weight: 600;
+  }
+
+  /* Body */
+  .text-body {
+    font-size: 1.0625rem;
+    line-height: 1.375rem;
+    font-weight: 400;
+  }
+
+  /* Callout */
+  .text-callout {
+    font-size: 1rem;
+    line-height: 1.3125rem;
+    font-weight: 400;
+  }
+
+  /* Subheadline */
+  .text-subheadline {
+    font-size: 0.9375rem;
+    line-height: 1.25rem;
+    font-weight: 400;
+  }
+
+  /* Footnote */
+  .text-footnote {
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
+    font-weight: 400;
+  }
+
+  /* Caption 1 */
+  .text-caption-1 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 400;
+  }
+
+  /* Caption 2 */
+  .text-caption-2 {
+    font-size: 0.6875rem;
+    line-height: 0.875rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+}
+
+@layer utilities {
+  /* ===== Apple-Style Glassmorphism ===== */
+
+  /* Translucent Navigation Bar */
+  .glass-nav {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 1px 3px var(--glass-shadow);
+  }
+
+  /* Frosted Card Surface */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(30px) saturate(150%);
+    -webkit-backdrop-filter: blur(30px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 4px 6px -1px var(--glass-shadow),
+      0 2px 4px -2px var(--glass-shadow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+  }
+
+  /* Subtle noise texture overlay */
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /* Floating Bottom Bar */
+  .glass-floating {
+    background: var(--glass-bg);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 10px 15px -3px var(--glass-shadow),
+      0 4px 6px -4px var(--glass-shadow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Modal Overlay */
+  .glass-modal {
+    background: var(--glass-bg);
+    backdrop-filter: blur(50px) saturate(180%);
+    -webkit-backdrop-filter: blur(50px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 20px 25px -5px var(--glass-shadow),
+      0 8px 10px -6px var(--glass-shadow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* Elevated Card (higher shadow) */
+  .glass-elevated {
+    background: var(--glass-bg);
+    backdrop-filter: blur(30px) saturate(150%);
+    -webkit-backdrop-filter: blur(30px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 10px 15px -3px var(--glass-shadow),
+      0 4px 6px -4px var(--glass-shadow),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  /* Subtle Glass (minimal blur) */
+  .glass-subtle {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px) saturate(120%);
+    -webkit-backdrop-filter: blur(10px) saturate(120%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 1px 2px var(--glass-shadow);
+  }
+
+  /* ===== Liquid Glass Effect ===== */
+  .glass-liquid {
+    position: relative;
+    overflow: hidden;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 15px 35px rgba(0, 0, 0, 0.2),
+      0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ===== Liquid Glass Navbar (Clear Crystal) ===== */
+  .glass-liquid-nav {
+    /* Highly transparent base */
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px) saturate(120%);
+    -webkit-backdrop-filter: blur(15px) saturate(120%);
+
+    /* Crystal Border */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+    /* Stronger top light */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    /* Deep "floating" shadow */
+    box-shadow:
+      0 15px 35px rgba(0, 0, 0, 0.1),
+      0 5px 15px rgba(0, 0, 0, 0.05);
+
+    border-radius: 9999px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Glossy Specular Highlight (The "Wet" Top Shine) */
+  .glass-liquid-nav::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to bottom,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.05) 40%,
+        transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Dark mode specific adjustments for visibility */
+  .dark .glass-liquid-nav {
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Liquid Blob Highlight */
+  .liquid-blob {
+    position: absolute;
+    top: -20px;
+    right: 15%;
+    width: 120px;
+    height: 60px;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15), transparent 70%);
+    filter: blur(15px);
+    opacity: 0.6;
+    pointer-events: none;
+    animation: blob-float 8s ease-in-out infinite alternate;
+  }
+
+  .glass-liquid::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1), transparent 60%),
+      radial-gradient(circle at 80% 20%, rgba(0, 122, 255, 0.15), transparent 40%);
+    animation: liquid-move 15s infinite alternate ease-in-out;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* Shimmer Overlay for gloss */
+  .shimmer-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(105deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.15) 45%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 55%);
+    animation: shimmer 4s infinite linear;
+    pointer-events: none;
+  }
+
+  /* ===== iOS-Style Animations ===== */
+
+  /* Spring animation */
+  .spring {
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Ease animation */
+  .ease-ios {
+    transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  /* Press feedback */
+  .press-scale {
+    transition: transform 0.15s ease-out;
+  }
+
+  .press-scale:active {
+    transform: scale(0.96);
+  }
+
+  @keyframes liquid-move {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+      transform: translate(-10%, -10%) rotate(5deg);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-150%);
+    }
+
+    100% {
+      transform: translateX(150%);
+    }
+  }
+
+  @keyframes blob-float {
+    0% {
+      transform: translate(0, 0) scale(1);
+    }
+
+    100% {
+      transform: translate(20px, 10px) scale(1.1);
+    }
+  }
+
+  /* ===== Utility Classes ===== */
+
+  /* No scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Safe area padding */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* iOS-style divider */
+  .divider-ios {
+    height: 0.5px;
+    background: var(--glass-border);
+  }
+
+  /* Subtle text shadow for depth */
+  .text-depth {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
