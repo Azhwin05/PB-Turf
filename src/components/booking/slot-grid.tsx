@@ -40,7 +40,9 @@ export function SlotGrid({ slots, loading, selectedSlotId, onSelectSlot }: SlotG
                 'postgres_changes',
                 { event: 'INSERT', schema: 'public', table: 'bookings' },
                 (payload) => {
+                    console.log("Realtime Event Received:", payload);
                     const newBooking = payload.new as { slot_id: string, status: string };
+                    console.log("New Booking Data:", newBooking);
                     if (newBooking.status === 'pending') {
                         setLockedSlotIds((prev) => [...prev, newBooking.slot_id]);
                     }

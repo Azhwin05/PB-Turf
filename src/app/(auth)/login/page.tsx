@@ -56,68 +56,56 @@ export default function LoginPage() {
         };
 
         try {
-            // 1. Try Specific User (Preferred)
-            console.log("Attempting specific login:", specificEmail);
+            // 2. Try Specific User (Preferred)
             const { data: specificData, error: specificError } = await attemptLogin(specificEmail);
-
             if (!specificError && specificData.session) {
-                // Success with specific user
-                toast.success("Login Successful!");
+                console.log("Login: Success (Specific User)");
+                localStorage.setItem("user_phone", phone);
+                toast.success("Login Successful");
                 router.push("/");
                 router.refresh();
                 return;
             }
 
-            // If specific failed (Rate Limit, Unconfirmed, or Not Found), try to create it?
-            // User reported Rate Limits on creation. So we skip creation loop if it's suspicious.
-            // But let's try one clean SignUp if it was "Invalid login credentials" (User Not Found)
+            // If specific failed with "Invalid login credentials" and user doesn't exist, maybe Try SignUp?
+            // Actually, for "Static" behavior: 
+            // If specific user auth fails, let's just go straight to Anonymous to allow distinct testing.
+            // Or if we want to "Create Account" for every number, we should SignUp here.
+            
             if (specificError && specificError.message.includes("Invalid login credentials")) {
+                 console.log("Login: Credentials invalid, attempting SignUp for new number...");
                  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
                     email: specificEmail,
                     password: commonPassword,
                     options: { data: { phone } }
-                });
-                
-                if (signUpData.session) {
-                    toast.success("Account Created & Logged In!");
-                    router.push("/");
-                    router.refresh();
-                    return;
-                }
-                // If SignUp failed (Rate limit etc), fall through to Master
-                console.warn("Specific SignUp failed:", signUpError?.message);
+                 });
+                 
+                 if (signUpData.session) {
+                     console.log("Login: Created New User");
+                     localStorage.setItem("user_phone", phone);
+                     toast.success("Account Created & Logged In");
+                     router.push("/");
+                     router.refresh();
+                     return;
+                 }
             }
 
-            // 2. Fallback to Master User (The "Static" Guarantee)
-            console.log("Falling back to Master User...");
-            const { data: masterData, error: masterError } = await attemptLogin(masterEmail);
-
-            if (masterData.session) {
-                // Store the REAL phone for display purposes
-                localStorage.setItem("user_phone", phone);
-                toast.success("Login Successful (Demo Mode)");
-                router.push("/");
-                router.refresh();
-                return;
-            }
-
-            // 3. Last Resort: Anonymous Login (The "Guaranteed" Fallback)
-            console.log("Master login failed. Falling back to Anonymous...");
+            // 3. Last Resort: Anonymous Login (UNIQUE ID GUARANTEED)
+            console.log("Login: Fallback to Anonymous (Unique Identity)...");
             const { data: anonData, error: anonError } = await supabase.auth.signInAnonymously({
                  options: {
-                     data: { phone } // Store phone in metadata
+                     data: { phone } 
                  }
             });
-
+            
             if (anonData?.session) {
                 localStorage.setItem("user_phone", phone);
-                toast.success("Login Successful (Anonymous Mode)");
+                toast.success("Login Successful (Guest Mode)");
                 router.push("/");
                 router.refresh();
                 return;
             }
 
-            // If even Anonymous fails, only then throw error
             if (anonError) {
                  console.error("Anonymous login failed:", anonError);
                  throw new Error(anonError.message || "All Login Methods Failed");
