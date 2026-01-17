@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronRight, CreditCard, Loader2, LogOut, Settings, Trophy, User, Bell, Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PushNotificationManager } from "@/components/push-notification-manager";
 
 export default function ProfilePage() {
     const router = useRouter();
@@ -160,38 +161,7 @@ export default function ProfilePage() {
                 {/* Menu Options - iOS Settings Style */}
                 <div className="space-y-6">
                     <div className="space-y-2">
-                        <h3 className="text-caption-1 font-medium text-muted-foreground uppercase tracking-wide ml-4">Preferences</h3>
-                        <div className="glass-card rounded-ios-xl overflow-hidden p-0 border-0 shadow-ios-sm">
-                            <button className="w-full flex items-center justify-between p-4 border-b border-border/50 bg-transparent hover:bg-muted/5 transition-colors group">
-                                <div className="flex items-center gap-3">
-                                    <div className="h-8 w-8 rounded-md bg-blue-500 flex items-center justify-center text-white">
-                                        <CreditCard className="h-5 w-5" />
-                                    </div>
-                                    <span className="text-body font-medium text-foreground">Payment Methods</span>
-                                </div>
-                                <ChevronRight className="h-5 w-5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
-                            </button>
-
-                            <button className="w-full flex items-center justify-between p-4 border-b border-border/50 bg-transparent hover:bg-muted/5 transition-colors group">
-                                <div className="flex items-center gap-3">
-                                    <div className="h-8 w-8 rounded-md bg-purple-500 flex items-center justify-center text-white">
-                                        <Bell className="h-5 w-5" />
-                                    </div>
-                                    <span className="text-body font-medium text-foreground">Notifications</span>
-                                </div>
-                                <ChevronRight className="h-5 w-5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
-                            </button>
-
-                            <button className="w-full flex items-center justify-between p-4 bg-transparent hover:bg-muted/5 transition-colors group">
-                                <div className="flex items-center gap-3">
-                                    <div className="h-8 w-8 rounded-md bg-slate-500 flex items-center justify-center text-white">
-                                        <Settings className="h-5 w-5" />
-                                    </div>
-                                    <span className="text-body font-medium text-foreground">App Settings</span>
-                                </div>
-                                <ChevronRight className="h-5 w-5 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
-                            </button>
-                        </div>
+                        <PushNotificationManager />
                     </div>
                 </div>
 

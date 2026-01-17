@@ -5,9 +5,11 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2, Moon, Sun, Lock } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { bookSlot } from "@/app/actions/booking";
-import { toast } from "sonner"; // Assuming you have sonner or some toast
+import { toast } from "sonner";
 
 export type Slot = {
     id: string;
@@ -26,6 +28,7 @@ interface SlotGridProps {
 }
 
 export function SlotGrid({ slots, loading, selectedSlotId, onSelectSlot }: SlotGridProps) {
+    const router = useRouter();
     const [lockedSlotIds, setLockedSlotIds] = useState<string[]>([]);
     const [isBooking, setIsBooking] = useState(false);
 
@@ -51,31 +54,46 @@ export function SlotGrid({ slots, loading, selectedSlotId, onSelectSlot }: SlotG
     }, []);
 
     const handleSlotClick = async (slotId: string) => {
+        // 1. Client-Side Auth Check
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            toast.error("Please login to book a slot.");
+            router.push("/login");
+            return;
+        }
+
         setIsBooking(true);
         // Optimistic update
         onSelectSlot(slotId);
 
         try {
+            console.log("Attempting to book slot:", slotId, "User ID:", user.id);
             const result = await bookSlot(slotId);
+            
             if (!result.success) {
-                // Handle error (e.g. show toast)
-                console.error(result.message);
-                // toast.error(result.message);
+                // Show clean error message
+                toast.error(result.message);
+                console.error("Booking Error:", result.message);
+                
+                // If unauthorized on server (mismatch), force login
+                if (result.message.includes("logged in")) {
+                    router.push("/login");
+                }
             } else {
-                // Success - Server Action revalidates path, Realtime updates other clients
-                // For this client, we might navigate to payment or show success
-                // toast.success("Slot locked!");
+                toast.success("Slot locked successfully!");
             }
         } catch (e) {
             console.error("Booking failed", e);
+            toast.error("Something went wrong.");
         } finally {
             setIsBooking(false);
         }
     };
 
+
     if (loading) {
         return (
-            <div className="grid grid-cols-2 gap-3 px-5 pb-32 animate-fade-in">
+            <div className="grid grid-cols-2 gap-3 pb-32 animate-fade-in">
                 {[...Array(6)].map((_, i) => (
                     <div key={i} className="glass-card rounded-ios-md p-4 h-[100px] flex flex-col justify-between">
                         <div className="flex justify-between w-full mb-2">

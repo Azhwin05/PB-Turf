@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { DateStripe } from "@/components/booking/date-stripe";
 import { SlotGrid, type Slot } from "@/components/booking/slot-grid";
 import { Button } from "@/components/ui/button";
@@ -79,10 +80,10 @@ export default function BookPage() {
         const result = await confirmBooking(selectedSlotId);
 
         if (result.success) {
-            // alert(`Booking Confirmed!`);
+            toast.success("Booking Confirmed! 🎉");
             router.push("/my-bookings");
         } else {
-            alert(result.message);
+            toast.error(result.message);
         }
         setBookingLoading(false);
     };

@@ -54,10 +54,13 @@ export async function middleware(request: NextRequest) {
         }
     )
 
-    await supabase.auth.getUser()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    // Protected routes logic can be added here
-    // For now, we just ensure session lies on the response
+    console.log("Middleware Debug:", {
+        path: request.nextUrl.pathname,
+        hasUser: !!user,
+        userId: user?.id
+    });
 
     return response
 }
