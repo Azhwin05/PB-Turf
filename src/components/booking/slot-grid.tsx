@@ -45,6 +45,9 @@ export function SlotGrid({ slots, loading, selectedSlotId, onSelectSlot }: SlotG
                     console.log("New Booking Data:", newBooking);
                     if (newBooking.status === 'pending') {
                         setLockedSlotIds((prev) => [...prev, newBooking.slot_id]);
+                        toast.info("A slot was just booked/locked by another user!");
+                    } else if (newBooking.status === 'confirmed') {
+                         toast.success("A slot was just confirmed!");
                     }
                 }
             )
