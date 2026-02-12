@@ -90,6 +90,7 @@ export function SlotGrid({ slots, loading, selectedSlotId, onSelectSlot }: SlotG
         } catch (e) {
             console.error("Booking failed", e);
             toast.error("Something went wrong.");
+            onSelectSlot(undefined as any); // Reset selection on error
         } finally {
             setIsBooking(false);
         }
