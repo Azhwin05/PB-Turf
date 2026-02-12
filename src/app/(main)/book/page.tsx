@@ -1,5 +1,7 @@
 "use client";
 
+import { formatInTimeZone, toZonedTime } from 'date-fns-tz';
+
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { DateStripe } from "@/components/booking/date-stripe";
@@ -29,11 +31,11 @@ export default function BookPage() {
             const { error: rpcError } = await supabase.rpc('initialize_week_slots');
             if (rpcError) {
                 console.warn("Auto-slot generation failed (might be missing SQL function):", rpcError);
-                // Continue anyway, maybe slots exist
-            }
-
-            const start = startOfDay(selectedDate).toISOString();
-            const end = endOfDay(selectedDate).toISOString();
+                // Force IST Timezone for Start/End of day
+            const timeZone = 'Asia/Kolkata';
+            const zonedDate = toZonedTime(selectedDate, timeZone);
+            const start = startOfDay(zonedDate).toISOString();
+            const end = endOfDay(zonedDate).toISOString();
 
             const { data, error } = await supabase
                 .from('slots')

@@ -11,6 +11,8 @@ import { supabase } from "@/lib/supabase/client";
 import { bookSlot } from "@/app/actions/booking";
 import { toast } from "sonner";
 
+import { formatInTimeZone } from 'date-fns-tz';
+
 export type Slot = {
     id: string;
     startTime: string; // ISO string
@@ -123,7 +125,7 @@ export function SlotGrid({ slots, loading, selectedSlotId, onSelectSlot }: SlotG
     return (
         <div className="grid grid-cols-2 gap-3 pb-32">
             {slots.map((slot) => {
-                const startTime = new Date(slot.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const startTime = formatInTimeZone(new Date(slot.startTime), 'Asia/Kolkata', 'hh:mm a');
                 // Determine effective status based on Realtime data
                 const isLockedRealtime = lockedSlotIds.includes(slot.id);
                 const effectiveStatus = isLockedRealtime ? 'locked' : slot.status;
@@ -143,15 +145,16 @@ export function SlotGrid({ slots, loading, selectedSlotId, onSelectSlot }: SlotG
                                 ? "bg-primary/10 border-2 border-primary shadow-primary-glow z-10"
                                 : "glass-card hover:glass-elevated",
                             !isAvailable && "opacity-40 cursor-not-allowed grayscale",
-                            // Locking visuals (Yellow)
-                            isLocked && "border-2 border-yellow-500/50 bg-yellow-500/10 opacity-60",
+                            // Locking visuals - Updated to look like "booked" (Grey + Strikethrough)
+                            isLocked && "opacity-50 cursor-not-allowed grayscale bg-muted/20 border-muted/20",
                             slot.status === 'deal' && !isSelected && "border-2 border-warning/30 bg-warning/5 shadow-warning-glow"
                         )}
                     >
                         <div className="flex justify-between w-full mb-1">
                             <span className={cn(
                                 "text-title-3 font-semibold",
-                                isSelected ? "text-primary" : "text-foreground"
+                                isSelected ? "text-primary" : "text-foreground",
+                                isLocked && "line-through text-muted-foreground"
                             )}>{startTime}</span>
                             {slot.isPeak ?
                                 <Moon className="h-4 w-4 text-primary/60" /> :
@@ -166,7 +169,7 @@ export function SlotGrid({ slots, loading, selectedSlotId, onSelectSlot }: SlotG
                                     </span>
                                 )}
                                 {isLocked && (
-                                    <div className="flex items-center gap-1 text-yellow-600">
+                                    <div className="flex items-center gap-1 text-muted-foreground">
                                         <Lock className="h-3 w-3" />
                                         <span className="text-caption-2 font-medium">LOCKED</span>
                                     </div>
